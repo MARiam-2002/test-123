@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d3028" />
+    <title>AMAALIA — بطاقة المعلومات الضريبية الرقمية</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap');
+
+      :root {
+        --ink: #102e26;
+        --ink-soft: #35534a;
+        --green: #0d3028;
+        --green-2: #16473a;
+        --green-3: #286453;
+        --cream: #f7f6f0;
+        --surface: #ffffff;
+        --sand: #e8e8df;
+        --line: rgba(16, 46, 38, 0.12);
+        --muted: #789087;
+        --gold: #d5b97b;
+        --success: #2f8a64;
+        --shadow: 0 24px 70px rgba(13, 48, 40, 0.12);
+        --shadow-soft: 0 12px 32px rgba(13, 48, 40, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--cream);
+        font-family: "Noto Sans Arabic", "DM Sans", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      button, input { font: inherit; }
+      button { cursor: pointer; }
+      a { color: inherit; text-decoration: none; }
+
+      .shell { max-width: 1220px; margin: 0 auto; padding: 0 28px; }
+      .topbar {
+        height: 84px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 26px;
+      }
+      .brand { display: inline-flex; align-items: center; gap: 12px; }
+      .brand-mark {
+        width: 35px; height: 35px; border-radius: 11px;
+        display: grid; place-items: center;
+        color: var(--cream); background: var(--green);
+        font: 700 18px/1 "DM Sans", sans-serif;
+        letter-spacing: -0.09em;
+      }
+      .brand-text { font: 700 16px/1 "DM Sans", sans-serif; letter-spacing: .09em; }
+      .nav { display: flex; align-items: center; gap: 30px; color: var(--ink-soft); font-size: 13px; }
+      .nav a { transition: color .2s ease; }
+      .nav a:hover, .nav a.active { color: var(--green); }
+      .lang-button, .ghost-button {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ink);
+        padding: 9px 15px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .lang-button:hover, .ghost-button:hover { background: var(--surface); }
+      .mobile-menu { display: none; }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, .82fr) minmax(480px, 1fr);
+        align-items: center;
+        gap: clamp(48px, 8vw, 130px);
+        padding: 70px 0 105px;
+      }
+      .eyebrow {
+        display: inline-flex; align-items: center; gap: 9px;
+        color: var(--green-3); font-size: 11px; font-weight: 700;
+        letter-spacing: .08em; text-transform: uppercase;
+      }
+      .eyebrow::before {
+        content: ""; width: 22px; height: 1px; background: var(--gold);
+      }
+      h1 {
+        margin: 22px 0 20px;
+        max-width: 560px;
+        font-size: clamp(36px, 4.8vw, 63px);
+        line-height: 1.25;
+        letter-spacing: -0.055em;
+        font-weight: 800;
+      }
+      .hero-copy {
+        max-width: 460px;
+        margin: 0 0 30px;
+        color: var(--ink-soft);
+        font-size: 16px;
+        line-height: 2;
+      }
+      .hero-meta {
+        display: flex; align-items: center; gap: 18px;
+        color: var(--muted); font-size: 12px;
+      }
+      .hero-meta span { display: inline-flex; align-items: center; gap: 7px; }
+      .meta-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
+
+      .card-stage {
+        position: relative;
+        display: flex; justify-content: center; align-items: center;
+        min-height: 470px;
+      }
+      .card-stage::before {
+        content: ""; position: absolute; width: 420px; height: 420px;
+        border-radius: 50%; background: rgba(213, 185, 123, .12);
+        filter: blur(3px);
+      }
+      .tax-card {
+        position: relative; width: min(100%, 480px); min-height: 292px;
+        padding: 27px 31px 25px;
+        color: #f9f7ef;
+        overflow: hidden;
+        border-radius: 22px;
+        background:
+          radial-gradient(circle at 0% 100%, rgba(70, 141, 109, .36) 0 1px, transparent 2px) 0 0/13px 13px,
+          linear-gradient(132deg, #0a2922, #16473a 54%, #0c3028);
+        box-shadow: 0 28px 58px rgba(13, 48, 40, .25);
+        transform: rotate(3deg);
+        transition: transform .35s ease, box-shadow .35s ease;
+      }
+      .tax-card:hover { transform: rotate(1deg) translateY(-4px); box-shadow: 0 34px 68px rgba(13, 48, 40, .3); }
+      .tax-card::before, .tax-card::after {
+        content: ""; position: absolute; border: 1px solid rgba(213, 185, 123, .26);
+        border-radius: 50%; pointer-events: none;
+      }
+      .tax-card::before { width: 280px; height: 280px; top: -135px; left: -80px; }
+      .tax-card::after { width: 340px; height: 340px; bottom: -205px; right: -90px; }
+      .card-top, .card-footer { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; }
+      .card-brand { display: flex; align-items: center; gap: 9px; }
+      .mini-mark { width: 27px; height: 27px; border: 1px solid rgba(245, 238, 214, .6); border-radius: 8px; display: grid; place-items: center; font: 700 14px/1 "DM Sans"; }
+      .card-brand-name { font: 700 14px/1 "DM Sans"; letter-spacing: .11em; }
+      .card-label { color: rgba(249, 247, 239, .62); font: 600 9px/1 "DM Sans"; letter-spacing: .17em; }
+      .demo-badge { margin-top: 31px; display: inline-flex; border: 1px solid rgba(213, 185, 123, .56); border-radius: 999px; padding: 5px 9px; color: #ead3a1; font: 600 8px/1 "DM Sans"; letter-spacing: .12em; }
+      .card-company { margin: 13px 0 25px; font: 700 24px/1.2 "DM Sans", sans-serif; letter-spacing: .01em; }
+      .card-fields { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 26px; }
+      .card-field small { display: block; margin-bottom: 5px; color: rgba(249, 247, 239, .56); font-size: 10px; }
+      .card-field strong { display: block; color: #fffdf6; font: 600 12px/1.35 "DM Sans", "Noto Sans Arabic"; overflow-wrap: anywhere; }
+      .card-footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(249, 247, 239, .16); }
+      .card-footer-note { color: rgba(249, 247, 239, .56); font-size: 9px; line-height: 1.4; }
+      .qr {
+        width: 55px; height: 55px; padding: 5px; border-radius: 7px;
+        background: #fff;
+        display: grid; grid-template-columns: repeat(11, 1fr); grid-template-rows: repeat(11, 1fr);
+        gap: 1px;
+      }
+      .qr i { display: block; background: #102e26; }
+      .qr i.blank { background: transparent; }
+      .qr .finder { position: relative; background: transparent; }
+      .qr .finder::before { content: ""; position: absolute; inset: 0; border: 2px solid #102e26; }
+      .qr .finder::after { content: ""; position: absolute; width: 35%; height: 35%; top: 32.5%; left: 32.5%; background: #102e26; }
+      .card-actions { position: relative; z-index: 2; margin-top: 25px; display: flex; justify-content: center; gap: 11px; }
+      .primary-button, .secondary-button {
+        min-height: 45px; border-radius: 999px; padding: 0 20px;
+        font-size: 12px; font-weight: 700; transition: transform .2s ease, background .2s ease;
+      }
+      .primary-button:focus-visible, .secondary-button:focus-visible, .ghost-button:focus-visible, .lang-button:focus-visible, .close:focus-visible, .share-option:focus-visible, .field input:focus-visible {
+        outline: 3px solid rgba(213, 185, 123, .72);
+        outline-offset: 3px;
+      }
+      .primary-button { color: var(--cream); border: 1px solid var(--green); background: var(--green); }
+      .secondary-button { color: var(--ink); border: 1px solid var(--line); background: transparent; }
+      .primary-button:hover, .secondary-button:hover { transform: translateY(-2px); }
+      .secondary-button:hover { background: var(--surface); }
+      .prototype-note { margin-top: 15px; color: var(--muted); text-align: center; font-size: 11px; }
+
+      .section { padding: 82px 0; border-top: 1px solid var(--line); scroll-margin-top: 25px; }
+      .section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 32px; }
+      .section-heading h2 { margin: 0; font-size: 26px; letter-spacing: -.04em; }
+      .section-heading p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+      .detail-layout { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; }
+      .info-panel, .admin-panel { padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.57); }
+      .info-callout { padding: 28px; border-radius: 18px; color: var(--cream); background: var(--green); }
+      .info-callout .callout-mark { width: 42px; height: 42px; display: grid; place-items: center; margin-bottom: 29px; border: 1px solid rgba(213,185,123,.45); border-radius: 13px; color: var(--gold); font: 700 19px/1 "DM Sans"; }
+      .info-callout h3 { margin: 0 0 9px; font-size: 20px; letter-spacing: -.03em; }
+      .info-callout p { margin: 0; color: rgba(247,246,240,.68); font-size: 12px; line-height: 1.9; }
+      .callout-list { display: grid; gap: 13px; margin: 26px 0 0; padding: 21px 0 0; border-top: 1px solid rgba(247,246,240,.15); list-style: none; }
+      .callout-list li { display: flex; align-items: center; gap: 9px; color: rgba(247,246,240,.82); font-size: 11px; }
+      .callout-list li::before { content: "✓"; display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; color: var(--green); background: var(--gold); font: 700 10px/1 "DM Sans"; }
+      .info-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+      .info-row { padding: 20px 0; border-bottom: 1px solid var(--line); }
+      .info-row:nth-child(odd) { padding-left: 25px; }
+      .info-row:nth-child(even) { padding-right: 25px; }
+      .info-row:nth-last-child(-n+2) { border-bottom: 0; }
+      .info-row label { display: block; margin-bottom: 8px; color: var(--muted); font-size: 11px; }
+      .info-row strong { display: block; font-size: 14px; overflow-wrap: anywhere; }
+      .status { display: inline-flex; align-items: center; gap: 6px; color: var(--success); }
+      .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+      .admin-panel h3 { margin: 0 0 6px; font-size: 17px; }
+      .admin-panel > p { margin: 0 0 25px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+      .field { margin-top: 15px; }
+      .field label { display: block; margin-bottom: 7px; color: var(--ink-soft); font-size: 11px; font-weight: 600; }
+      .field input { width: 100%; padding: 12px 13px; border: 1px solid var(--line); border-radius: 10px; outline: none; background: var(--surface); color: var(--ink); font-size: 12px; }
+      .field input:focus { border-color: var(--green-3); box-shadow: 0 0 0 3px rgba(40,100,83,.1); }
+      .admin-note { margin-top: 17px; color: var(--muted); font-size: 10px; }
+
+      .share-strip { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 25px; padding: 28px 30px; border-radius: 18px; color: var(--cream); background: var(--green); }
+      .share-strip h2 { margin: 0 0 7px; font-size: 22px; }
+      .share-strip p { margin: 0; color: rgba(247,246,240,.67); font-size: 12px; }
+      .share-strip .primary-button { color: var(--green); background: var(--cream); border-color: var(--cream); }
+      footer { padding: 33px 0 44px; color: var(--muted); font-size: 10px; }
+      .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+      .footer-disclaimer { max-width: 490px; line-height: 1.8; }
+
+      .overlay { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgba(9, 31, 25, .55); opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+      .overlay.open { opacity: 1; pointer-events: auto; }
+      .modal { width: min(100%, 480px); max-height: 90vh; overflow: auto; padding: 28px; border-radius: 18px; background: var(--cream); box-shadow: var(--shadow); transform: translateY(10px); transition: transform .2s ease; }
+      .overlay.open .modal { transform: translateY(0); }
+      .modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 22px; }
+      .modal-head h3 { margin: 0 0 6px; font-size: 20px; }
+      .modal-head p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+      .close { width: 31px; height: 31px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); font-size: 18px; line-height: 1; }
+      .share-options { display: grid; gap: 9px; }
+      .share-option { display: flex; align-items: center; gap: 12px; width: 100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.5); color: var(--ink); text-align: start; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+      .share-option:hover { border-color: var(--green-3); background: #fff; }
+      .share-option:hover { transform: translateY(-1px); }
+      .share-icon { width: 29px; height: 29px; display: grid; place-items: center; border-radius: 9px; color: var(--green); background: #e8eee9; font-size: 13px; }
+      .share-option strong { display: block; font-size: 12px; }
+      .share-option small { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; }
+      .modal-qr { display: grid; place-items: center; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+      .modal-qr .qr { width: 172px; height: 172px; gap: 3px; padding: 12px; }
+      .modal-qr .qr .finder::before { border-width: 5px; }
+      .modal-qr .qr .finder::after { width: 37%; height: 37%; top: 31.5%; left: 31.5%; }
+      .modal-qr p { margin: 14px 0 0; color: var(--muted); font-size: 10px; text-align: center; direction: ltr; }
+      .toast { position: fixed; left: 50%; bottom: 25px; z-index: 50; max-width: calc(100% - 40px); padding: 12px 17px; border-radius: 999px; color: var(--cream); background: var(--green); box-shadow: var(--shadow-soft); font-size: 11px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; transition: .25s ease; }
+      .toast.show { opacity: 1; transform: translate(-50%, 0); }
+      .public-view { min-height: 100vh; display: grid; place-items: center; padding: 30px 20px; }
+      .public-card { width: min(100%, 520px); padding: 32px; border: 1px solid var(--line); border-radius: 20px; background: rgba(255,255,255,.68); box-shadow: var(--shadow-soft); }
+      .public-card .brand { margin-bottom: 37px; }
+      .public-kicker { color: var(--green-3); font-size: 11px; font-weight: 700; }
+      .public-card h1 { margin: 12px 0 10px; font-size: 30px; }
+      .public-card > p { color: var(--muted); font-size: 12px; line-height: 1.8; }
+      .public-notice { display: flex; gap: 10px; margin: 22px 0; padding: 12px; border-radius: 10px; color: #745d2e; background: #f5eddc; font-size: 11px; line-height: 1.7; }
+      .public-notice b { color: #b18a42; }
+      .public-details { margin: 20px 0 26px; padding: 0 18px; border-radius: 12px; background: rgba(255,255,255,.62); }
+      .public-details .info-row { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+      .public-details .info-row:nth-child(odd), .public-details .info-row:nth-child(even) { padding-left: 0; padding-right: 0; }
+      .public-details .info-row label { margin: 0; }
+      .public-details .info-row strong { text-align: left; }
+      [dir="ltr"] .public-details .info-row strong { text-align: right; }
+      [dir="ltr"] .public-details .info-row { direction: ltr; }
+      [dir="ltr"] .hero-copy, [dir="ltr"] .section-heading p, [dir="ltr"] .admin-panel > p, [dir="ltr"] .footer-disclaimer { line-height: 1.7; }
+      [dir="ltr"] .card-field strong, [dir="ltr"] .card-field small { font-family: "DM Sans", "Noto Sans Arabic", Arial, sans-serif; }
+
+      @media (max-width: 880px) {
+        .nav { display: none; }
+        .mobile-menu { display: inline-flex; }
+        .hero { grid-template-columns: 1fr; padding-top: 45px; gap: 30px; }
+        .hero-copy { max-width: 600px; }
+        .card-stage { min-height: 440px; }
+        .detail-layout { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 540px) {
+        .shell { padding: 0 18px; }
+        .topbar { height: 70px; }
+        .brand-text { font-size: 14px; }
+        h1 { font-size: 38px; }
+        .hero { padding: 34px 0 75px; }
+        .hero-meta { align-items: flex-start; flex-direction: column; gap: 8px; }
+        .card-stage { min-height: 358px; margin: 0 -8px; }
+        .card-stage::before { width: 310px; height: 310px; }
+        .tax-card { min-height: 246px; padding: 21px 21px 20px; border-radius: 17px; transform: rotate(2.5deg) scale(.95); }
+        .tax-card:hover { transform: rotate(1deg) translateY(-4px) scale(.95); }
+        .card-company { margin: 11px 0 19px; font-size: 18px; }
+        .card-fields { gap: 12px 16px; }
+        .card-field small { font-size: 8px; }
+        .card-field strong { font-size: 10px; }
+        .card-footer { margin-top: 17px; padding-top: 12px; }
+        .card-footer-note { font-size: 8px; }
+        .qr { width: 45px; height: 45px; padding: 4px; }
+        .card-actions { margin-top: 15px; gap: 7px; }
+        .primary-button, .secondary-button { min-height: 42px; padding: 0 12px; font-size: 10px; }
+        .section { padding: 60px 0; }
+        .section-heading { display: block; margin-bottom: 18px; }
+        .section-heading h2 { font-size: 23px; }
+        .info-panel, .admin-panel { padding: 20px; }
+        .info-list { grid-template-columns: 1fr; }
+        .info-row, .info-row:nth-child(odd), .info-row:nth-child(even) { padding: 15px 0; }
+        .info-row:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
+        .info-row:last-child { border-bottom: 0; }
+        .share-strip { display: block; padding: 24px 20px; }
+        .share-strip .primary-button { margin-top: 21px; }
+        .footer-row { align-items: flex-start; flex-direction: column; }
+        .public-card { padding: 24px; }
+        .public-card h1 { font-size: 26px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="overlay" id="detailModal" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+        <div class="modal-head">
+          <div>
+            <h3 id="detailTitle">جميع البيانات الضريبية</h3>
+            <p>بيانات تجريبية لبطاقة AMAALIA الرقمية.</p>
+          </div>
+          <button class="close" data-close="detailModal" aria-label="إغلاق">×</button>
+        </div>
+        <div class="info-panel" style="background: rgba(255,255,255,.56);">
+          <div class="info-list" id="modalDetails"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="shareModal" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+        <div class="modal-head">
+          <div>
+            <h3 id="shareTitle">مشاركة البطاقة</h3>
+            <p>شارك رابط البطاقة التجريبية بالطريقة المناسبة.</p>
+          </div>
+          <button class="close" data-close="shareModal" aria-label="إغلاق">×</button>
+        </div>
+        <div class="share-options">
+          <button class="share-option" data-share="copy"><span class="share-icon">↗</span><span><strong>نسخ الرابط</strong><small>انسخ رابط البطاقة إلى الحافظة</small></span></button>
+          <button class="share-option" data-share="whatsapp"><span class="share-icon">◌</span><span><strong>WhatsApp</strong><small>فتح رسالة مشاركة تجريبية</small></span></button>
+          <button class="share-option" data-share="email"><span class="share-icon">✉</span><span><strong>البريد الإلكتروني</strong><small>فتح رسالة جديدة للمشاركة</small></span></button>
+          <button class="share-option" data-share="qr"><span class="share-icon">⌗</span><span><strong>عرض رمز QR</strong><small>لفتح البطاقة من هاتف آخر</small></span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="qrModal" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
+        <div class="modal-head">
+          <div>
+            <h3 id="qrTitle">رمز البطاقة</h3>
+            <p>رمز تجريبي يفتح صفحة العرض العامة للبطاقة.</p>
+          </div>
+          <button class="close" data-close="qrModal" aria-label="إغلاق">×</button>
+        </div>
+        <div class="modal-qr">
+          <div class="qr" id="largeQr"></div>
+          <p>/tax-card/amaalia</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const initialData = {
+        name: "AMAALIA COMPANY",
+        vat: "310XXXXXXXXXXX",
+        cr: "1010XXXXXX",
+        address: "Riyadh, Saudi Arabia",
+        status: "نشطة",
+        type: "شركة"
+      };
+      const data = { ...initialData };
+      let currentLang = "ar";
+      const copy = {
+        ar: {
+          home: "الرئيسية", card: "البطاقة الضريبية", share: "مشاركة البطاقة", language: "English",
+          eyebrow: "DIGITAL TAX WALLET CARD", headline: "بطاقة المعلومات<br />الضريبية الرقمية",
+          supporting: "بطاقة إلكترونية تحتوي معلومات منشأتك الضريبية، جاهزة للإضافة إلى محفظة الآيفون أو أي جوال.",
+          private: "بطاقة خاصة بالشركة", wallet: "مصممة للمحفظة الرقمية",
+          walletNote: "Prototype preview — wallet integration will be connected in production.",
+          details: "تفاصيل البطاقة", detailsSub: "كل المعلومات الأساسية في مكان واحد.",
+          showAll: "عرض جميع البيانات", admin: "مساحة الإدارة",
+          adminSub: "عدّل بيانات العرض لترى كيف تتحدث البطاقة فوراً. لا توجد قاعدة بيانات أو تسجيل دخول في هذا النموذج.",
+          company: "اسم المنشأة", vat: "الرقم الضريبي", cr: "رقم السجل التجاري", address: "العنوان", status: "الحالة", type: "نوع المنشأة",
+          adminNote: "* البيانات المعروضة تجريبية وليست وثيقة رسمية.",
+          shareTitle: "شارك بطاقة AMAALIA", shareSub: "رابط واحد للوصول السريع إلى معلومات المنشأة.",
+          shareButton: "مشاركة البطاقة", footer: "بطاقة معلومات ضريبية رقمية خاصة بالشركة. ليست شهادة حكومية أو وثيقة صادرة عن ZATCA.",
+          active: "نشطة", companyType: "شركة", back: "العودة إلى البطاقة الرئيسية",
+          publicKicker: "PUBLIC DEMO VIEW · TAX INFORMATION CARD", publicTitle: "معلومات المنشأة الضريبية",
+          publicSub: "عرض عام تجريبي لبطاقة AMAALIA الرقمية. هذه الصفحة لا تمثل شهادة حكومية أو تحققاً رسمياً.",
+          notice: "تنبيه", noticeText: "بيانات العرض التالية تجريبية ومخصصة لاستعراض تجربة المنتج فقط.",
+          allTax: "جميع البيانات الضريبية", demoDetails: "بيانات تجريبية لبطاقة AMAALIA الرقمية.",
+          shareModalSub: "شارك رابط البطاقة التجريبية بالطريقة المناسبة.",
+          qrTitle: "رمز البطاقة", qrSub: "رمز تجريبي يفتح صفحة العرض العامة للبطاقة."
+        },
+        en: {
+          home: "Home", card: "Tax card", share: "Share card", language: "العربية",
+          eyebrow: "DIGITAL TAX WALLET CARD", headline: "Digital tax<br />information card",
+          supporting: "An electronic card containing your company tax information, ready for iPhone Wallet or any mobile device.",
+          private: "Private company card", wallet: "Designed for your digital wallet",
+          walletNote: "Prototype preview — wallet integration will be connected in production.",
+          details: "Card details", detailsSub: "Every essential detail, in one place.",
+          showAll: "View all information", admin: "Admin preview",
+          adminSub: "Edit the demo data to see the card update instantly. No database or login is included in this prototype.",
+          company: "Company name", vat: "VAT number", cr: "Commercial registration", address: "Address", status: "Status", type: "Company type",
+          adminNote: "* All displayed information is demo data and not an official document.",
+          shareTitle: "Share the AMAALIA card", shareSub: "One link for quick access to the company information.",
+          shareButton: "Share card", footer: "Private company digital tax information card. Not a government certificate or ZATCA-issued document.",
+          active: "Active", companyType: "Company", back: "Back to the main card",
+          publicKicker: "PUBLIC DEMO VIEW · TAX INFORMATION CARD", publicTitle: "Company tax information",
+          publicSub: "A public demo view of the AMAALIA digital card. This page is not a government certificate or official verification.",
+          notice: "Notice", noticeText: "The information below is demo data for showcasing the product experience only.",
+          allTax: "All tax information", demoDetails: "Demo information for the AMAALIA digital card.",
+          shareModalSub: "Share the demo card link in the way that works best.",
+          qrTitle: "Card QR code", qrSub: "A demo code that opens the card's public view."
+        }
+      };
+      const t = key => copy[currentLang][key];
+      const displayStatus = () => currentLang === "en" && data.status === initialData.status ? t("active") : data.status;
+      const displayType = () => currentLang === "en" ? t("companyType") : data.type;
+      const qrPattern = "110101100110110101101011001011011010110100101101101010110011010110110101001011011001011010110110101101001011011010110010110101101101001011010110110101001101011011010110010110101100101101101011011010110";
+
+      function qrMarkup() {
+        const cells = [];
+        for (let i = 0; i < 121; i++) {
+          const row = Math.floor(i / 11), col = i % 11;
+          const finder = (row < 3 && col < 3) || (row < 3 && col > 7) || (row > 7 && col < 3);
+          if (finder) cells.push('<i class="finder"></i>');
+          else cells.push(qrPattern[i % qrPattern.length] === "1" ? "<i></i>" : '<i class="blank"></i>');
+        }
+        return cells.join("");
+      }
+
+      function field(label, value, extra = "") {
+        return `<div class="card-field"><small>${label}</small><strong class="${extra}">${value}</strong></div>`;
+      }
+
+      function infoRow(label, value, extra = "") {
+        return `<div class="info-row"><label>${label}</label><strong class="${extra}">${value}</strong></div>`;
+      }
+
+      function renderCard() {
+        const card = document.querySelector("#liveCard");
+        if (!card) return;
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="card-brand"><span class="mini-mark">A</span><span class="card-brand-name">AMAALIA</span></div>
+            <span class="card-label">TAX INFORMATION CARD</span>
+          </div>
+          <span class="demo-badge">DEMO DATA · PROTOTYPE</span>
+          <div class="card-company">${data.name}</div>
+          <div class="card-fields">
+            ${field(t("vat"), data.vat)}
+            ${field(t("cr"), data.cr)}
+            ${field(t("address"), data.address)}
+            ${field(t("status"), displayStatus())}
+          </div>
+          <div class="card-footer">
+            <span class="card-footer-note">${currentLang === "en" ? "Private digital<br />tax information" : "شركة رقمية<br />للمعلومات الضريبية"}</span>
+            <div class="qr">${qrMarkup()}</div>
+          </div>`;
+        document.querySelector("#detailList").innerHTML = [
+          infoRow(t("company"), data.name),
+          infoRow(t("vat"), data.vat),
+          infoRow(t("cr"), data.cr),
+          infoRow(t("address"), data.address),
+          infoRow(t("status"), displayStatus(), "status"),
+          infoRow(t("type"), displayType())
+        ].join("");
+        document.querySelector("#modalDetails").innerHTML = document.querySelector("#detailList").innerHTML;
+      }
+
+      function showToast(message) {
+        const toast = document.querySelector("#toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(window.toastTimer);
+        window.toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+      }
+
+      function openModal(id) {
+        const modal = document.querySelector("#" + id);
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+      }
+      function closeModal(id) {
+        const modal = document.querySelector("#" + id);
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+      }
+
+      function publicView() {
+        return `
+          <main class="public-view">
+            <section class="public-card">
+              <div class="brand"><span class="brand-mark">A</span><span class="brand-text">AMAALIA</span></div>
+              <span class="public-kicker">${t("publicKicker")}</span>
+              <h1>${t("publicTitle")}</h1>
+              <p>${t("publicSub")}</p>
+              <div class="public-notice"><b>${t("notice")}</b><span>${t("noticeText")}</span></div>
+              <div class="public-details">
+                ${infoRow(t("company"), data.name)}
+                ${infoRow(t("vat"), data.vat)}
+                ${infoRow(t("cr"), data.cr)}
+                ${infoRow(t("address"), data.address)}
+                ${infoRow(t("status"), displayStatus(), "status")}
+              </div>
+              <button class="primary-button" style="width:100%" data-route-home>${t("back")}</button>
+            </section>
+          </main>`;
+      }
+
+      function homeView() {
+        return `
+          <header class="shell topbar">
+            <a class="brand" href="#top" aria-label="AMAALIA">
+              <span class="brand-mark">A</span><span class="brand-text">AMAALIA</span>
+            </a>
+            <nav class="nav" aria-label="التنقل الرئيسي">
+              <a class="active" href="#top">${t("home")}</a>
+              <a href="#details">${t("card")}</a>
+              <a href="#share" data-open="shareModal">${t("share")}</a>
+              <button class="lang-button" id="languageToggle">${t("language")}</button>
+            </nav>
+            <button class="lang-button mobile-menu" id="languageToggleMobile">${t("language")}</button>
+          </header>
+
+          <main id="top">
+            <section class="shell hero">
+              <div>
+                <span class="eyebrow">AMAALIA DIGITAL IDENTITY</span>
+                <h1>${t("headline")}</h1>
+                <p class="hero-copy">${t("supporting")}</p>
+                <div class="hero-meta"><span><i class="meta-dot"></i>${t("private")}</span><span>${t("wallet")}</span></div>
+              </div>
+              <div class="card-stage">
+                <div>
+                  <div class="tax-card" id="liveCard"></div>
+                  <div class="card-actions">
+                    <button class="primary-button" data-wallet="apple"> &nbsp; Add to Apple Wallet</button>
+                    <button class="secondary-button" data-wallet="google">＋ &nbsp; Add to Google Wallet</button>
+                  </div>
+                  <p class="prototype-note">${t("walletNote")}</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="shell section" id="details">
+              <div class="section-heading">
+                  <div><h2>${t("details")}</h2><p>${t("detailsSub")}</p></div>
+                <button class="ghost-button" data-open="detailModal">${t("showAll")}&nbsp; ↗</button>
+              </div>
+              <div class="detail-layout">
+                <div class="info-panel"><div class="info-list" id="detailList"></div></div>
+                <aside class="info-callout">
+                  <div class="callout-mark">A</div>
+                  <h3>${currentLang === "en" ? "Ready for your wallet" : "جاهزة لمحفظتك"}</h3>
+                  <p>${currentLang === "en" ? "One clear digital card for the company tax information you need to keep close and share quickly." : "بطاقة رقمية واحدة تجمع المعلومات الضريبية للشركة لتبقى قريبة منك وسهلة المشاركة."}</p>
+                  <ul class="callout-list">
+                    <li>${currentLang === "en" ? "Works across iPhone and Android" : "مناسبة للآيفون والأندرويد"}</li>
+                    <li>${currentLang === "en" ? "Quick to share when needed" : "سهلة المشاركة عند الحاجة"}</li>
+                    <li>${currentLang === "en" ? "Wallet integration in production" : "ربط المحفظة يتم في مرحلة الإنتاج"}</li>
+                  </ul>
+                </aside>
+              </div>
+            </section>
+
+            <section class="shell section" id="share">
+              <div class="share-strip">
+                <div><h2>${t("shareTitle")}</h2><p>${t("shareSub")}</p></div>
+                <button class="primary-button" data-open="shareModal">${t("shareButton")}&nbsp; ↗</button>
+              </div>
+            </section>
+          </main>
+          <footer class="shell"><div class="footer-row"><span>© 2026 AMAALIA COMPANY</span><span class="footer-disclaimer">${t("footer")}</span></div></footer>`;
+      }
+
+      function renderRoute() {
+        const app = document.querySelector("#app");
+        if (location.pathname === "/tax-card/amaalia") {
+          app.innerHTML = publicView();
+          document.title = currentLang === "en" ? "AMAALIA — Public Demo Card" : "AMAALIA — بطاقة المعلومات الضريبية";
+          document.documentElement.dir = "rtl";
+          document.querySelector("[data-route-home]")?.addEventListener("click", () => {
+            history.pushState({}, "", "/");
+            renderRoute();
+          });
+          return;
+        }
+        app.innerHTML = homeView();
+        document.title = currentLang === "en" ? "AMAALIA — Digital Tax Information Card" : "AMAALIA — بطاقة المعلومات الضريبية الرقمية";
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = currentLang === "en" ? "ltr" : "rtl";
+        document.querySelector("#detailTitle").textContent = t("allTax");
+        document.querySelector("#detailTitle").nextElementSibling.textContent = t("demoDetails");
+        document.querySelector("#shareTitle").textContent = t("share");
+        document.querySelector("#shareTitle").nextElementSibling.textContent = t("shareModalSub");
+        document.querySelector("#qrTitle").textContent = t("qrTitle");
+        document.querySelector("#qrTitle").nextElementSibling.textContent = t("qrSub");
+        renderCard();
+        document.querySelectorAll("[data-field]").forEach(input => input.addEventListener("input", e => {
+          data[e.target.dataset.field] = e.target.value || initialData[e.target.dataset.field];
+          renderCard();
+        }));
+        document.querySelectorAll("[data-open]").forEach(button => button.addEventListener("click", e => {
+          e.preventDefault(); openModal(button.dataset.open);
+        }));
+        document.querySelectorAll("[data-wallet]").forEach(button => button.addEventListener("click", () => {
+          showToast(button.dataset.wallet === "apple" ? "هذه معاينة فقط — سيتم ربط Apple Wallet في الإنتاج." : "هذه معاينة فقط — سيتم ربط Google Wallet في الإنتاج.");
+        }));
+        document.querySelector("#languageToggle")?.addEventListener("click", toggleLanguage);
+        document.querySelector("#languageToggleMobile")?.addEventListener("click", toggleLanguage);
+      }
+
+      function toggleLanguage() {
+        currentLang = currentLang === "ar" ? "en" : "ar";
+        document.documentElement.lang = currentLang;
+        renderRoute();
+        showToast(currentLang === "en" ? "English view enabled." : "تم تفعيل العرض العربي.");
+      }
+
+      document.addEventListener("click", async e => {
+        const close = e.target.closest("[data-close]");
+        if (close) closeModal(close.dataset.close);
+        if (e.target.classList.contains("overlay")) closeModal(e.target.id);
+        const share = e.target.closest("[data-share]");
+        if (!share) return;
+        const url = `${location.origin || "https://demo.amaalia.co"}/tax-card/amaalia`;
+        if (share.dataset.share === "copy") {
+          try { await navigator.clipboard.writeText(url); } catch (_) {}
+          showToast("تم نسخ رابط البطاقة التجريبي.");
+        }
+        if (share.dataset.share === "whatsapp") window.open(`https://wa.me/?text=${encodeURIComponent("بطاقة AMAALIA الرقمية: " + url)}`, "_blank");
+        if (share.dataset.share === "email") window.location.href = `mailto:?subject=${encodeURIComponent("بطاقة AMAALIA الرقمية")}&body=${encodeURIComponent(url)}`;
+        if (share.dataset.share === "qr") { closeModal("shareModal"); document.querySelector("#largeQr").innerHTML = qrMarkup(); openModal("qrModal"); }
+      });
+
+      window.addEventListener("popstate", renderRoute);
+      renderRoute();
+    </script>
+  </body>
+</html>
